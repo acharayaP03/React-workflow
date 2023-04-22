@@ -1,0 +1,16 @@
+name: Deploy website
+on: "push"
+jobs:
+  lint: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Installing nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Installing dependecies
+        run: npm ci
+      - name: Lint code base
+        run: npm run lint
