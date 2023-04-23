@@ -62,9 +62,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with: 
           name: dist-files
-          path: | # we need this pipe char to run multiple commands
-            dist
-            package.json
+          path: dist
+          # path: | # we need this pipe char to run multiple commands
+          #   dist
+          #   package.json
   deploy:
     needs: build
     runs-on: ubuntu-latest
