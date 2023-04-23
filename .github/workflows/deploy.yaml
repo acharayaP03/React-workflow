@@ -51,7 +51,17 @@ jobs:
           node-version: 18
       - name: Installing dependecies
         run: npm ci
-      - name: Build Prod 
+      - name: Build Artifact 
         run: npm run build
-      - name: Deploy to server
-        run : echo "Deplopying ....."
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with: 
+          name: dist-files
+          path: | # we need this pipe char to run multiple commands
+            dist
+            package.json
+  deploy:
+    needs: build
+    steps: 
+      - name: Deploy
+        run : echo "Deploying...."
