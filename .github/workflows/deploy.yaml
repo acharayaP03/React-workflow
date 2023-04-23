@@ -13,7 +13,6 @@ on:
       - '.github/workflows/*' # will not trigger if the workflow file is changed
 jobs:
   test:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Get code
