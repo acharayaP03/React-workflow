@@ -12,11 +12,17 @@ on:
     paths-ignore:
       - '.github/workflows/*' # will not trigger if the workflow file is changed
 jobs:
-  lint: 
+  test:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with: 
+          path: ~/.npm # this tells gh-action to save cache on .npm folder
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
       - name: Installing nodejs
         uses: actions/setup-node@v3
         with:
@@ -25,18 +31,6 @@ jobs:
         run: npm ci
       - name: Lint code base
         run: npm run lint
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Installing nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Installing dependecies
-        run: npm ci
       - name: Run test
         run: npm test
   build: 
@@ -47,6 +41,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with: 
+          path: ~/.npm # this tells gh-action to save cache on .npm folder
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
       - name: Installing nodejs
         uses: actions/setup-node@v3
         with:
