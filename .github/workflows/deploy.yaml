@@ -3,30 +3,30 @@ on:
   # pull_request:
   #   types: 
   #     - opened
-  # workflow_dispatch:
+  workflow_dispatch:
   push: 
     branches:
       - main
       # - 'dev-*' # triggers on all dev-
       # - 'feature/**' # triggers on all branch that starts with feature/<any brnch>
-    # paths-ignore:
-    #   - '.github/workflows/*' # will not trigger if the workflow file is changed
+    paths-ignore:
+      - '.github/workflows/*' # will not trigger if the workflow file is changed
 jobs:
-  # lint: 
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Get code
-  #       uses: actions/checkout@v3
-  #     - name: Installing nodejs
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
-  #     - name: Installing dependecies
-  #       run: npm ci
-  #     - name: Lint code base
-  #       run: npm run lint
+  lint: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Installing nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Installing dependecies
+        run: npm ci
+      - name: Lint code base
+        run: npm run lint
   test:
-    # needs: lint
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -43,7 +43,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     outputs:
-      scritp-file: ${{ steps.publish.outputs.jsFile }}
+      script-file: ${{ steps.publish.outputs.jsFile }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
