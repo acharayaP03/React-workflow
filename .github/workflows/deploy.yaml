@@ -12,6 +12,24 @@ on:
     paths-ignore:
       - '.github/workflows/*' # will not trigger if the workflow file is changed
 jobs:
+  lint: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code 
+        uses: actions/checkout@v3
+      - name: Cache dependecies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
+      - name: Installing Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Installing dependecies
+        run : npm ci
+      - name: Lint code base 
+        run: npm run lint
   test:
     runs-on: ubuntu-latest
     steps:
@@ -28,8 +46,6 @@ jobs:
           node-version: 18
       - name: Installing dependecies
         run : npm ci
-      - name: Lint code base
-        run : npm run lint
       - name: Run test
         id  : test-run
         run : npm run test
@@ -86,6 +102,7 @@ jobs:
       - name: Deploy
         run : echo "Deploying...."
   report:
+    needs: [lint, deploy]
     if: failure()
     runs-on: ubuntu-latest
     steps:
