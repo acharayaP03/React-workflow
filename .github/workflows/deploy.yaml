@@ -27,11 +27,18 @@ jobs:
         with:
           node-version: 18
       - name: Installing dependecies
-        run: npm ci
+        run : npm ci
       - name: Lint code base
-        run: npm run lint
+        run : npm run lint
+        id  : test-run
       - name: Run test
-        run: npm test
+        run : npm run test
+      - name: Upload test report
+        if  : failure() && steps.test-run.outcome == 'failure'
+        uses: actions/upload-aritfact@v3
+        with: 
+          name: test-report
+          path: test.json
   build: 
     needs: test
     runs-on: ubuntu-latest
