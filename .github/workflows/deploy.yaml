@@ -100,6 +100,8 @@ jobs:
   deploy:
     needs: build
     uses: './.github/workflows/resuable-workflow.yaml'
+    with: 
+      artifact-name: dist-files
     # runs-on: ubuntu-latest
     # steps: 
     #   - name: Get build artifacts
