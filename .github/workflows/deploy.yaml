@@ -27,20 +27,8 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with: 
-          # path: ~/.npm # this tells gh-action to save cache on .npm folder
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
-      - name: Installing nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Installing dependecies
-        if: steps.cache.outputs.cache-hits != 'true'
-        run : npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cache-deps
       - name: Run test
         continue-on-error: true # run other jobs even if this job fails
         id  : test-run
@@ -59,20 +47,8 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with: 
-          # path: ~/.npm # this tells gh-action to save cache on .npm folder
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
-      - name: Installing nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Installing dependecies
-        if: steps.cache.outputs.cache-hits != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cache-deps
       - name: Build Artifact 
         run: npm run build
       - name: Publish JS filename
