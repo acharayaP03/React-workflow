@@ -20,6 +20,8 @@ jobs:
         # we are now using git hub action
       - name: Load & cache dependencies
         uses: ./.github/actions/cache-deps
+        with:
+          caching: 'false'
       - name: Lint code base 
         run: npm run lint
   test:
