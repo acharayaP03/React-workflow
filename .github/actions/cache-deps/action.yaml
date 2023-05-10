@@ -9,6 +9,10 @@ runs:
       with:
         path: node_modules
         key: deps-node-modules-${{ hashFiles(**/package-lock.json) }}
+    - name: Install Node js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
     - name: Install dependencies
       if: steps.cache.outputs.cahce-hit != 'true'
       run: npm ci

@@ -17,20 +17,7 @@ jobs:
     steps:
       - name: Get code 
         uses: actions/checkout@v3
-      # - name: Cache dependecies
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     # path: ~/.npm
-      #     path: node_modules # use cached node modules rather than npm 
-      #     key: deps-node-modules-${{ hashFiles('**/package-lock.json') }} # this generates each cashe with unique id
-      # - name: Installing Node JS
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-      # - name: Installing dependecies
-      #   if: steps.cache.outputs.cache-hits != 'true' # if we already have node modules folders then cache-hits will return true, then it will not run npm ci
-      #   run : npm ci
+        # we are now using git hub action
       - name: Load & cache dependencies
         uses: ./github/actions/cache-deps
       - name: Lint code base 
