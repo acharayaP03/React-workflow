@@ -71,6 +71,13 @@ jobs:
     uses: './.github/workflows/resuable-workflow.yaml'
     with: 
       artifact-name: dist-files
+  information: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: "Runs custom javascript actions"
+        uses: './.github/actions/deploy-s3'
   print-deploy-result:
     needs: deploy
     runs-on: ubuntu-latest
